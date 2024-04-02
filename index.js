@@ -16,7 +16,12 @@ const server = http.createServer((req, res) => {
         const filePath = './404.html';
         responseStatus = 404;
     }
+
     fs.readFile(filePath, (error, data) => {
+        if (error) {
+            res.writeHead(500, { 'Content-Type': 'text/html' });
+            res.end('500 Internal server error');
+        }
         res.writeHead(responseStatus, {'content-type': 'text/html'})
         res.write(data)
         res.end()
